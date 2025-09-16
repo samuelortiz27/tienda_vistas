@@ -1,0 +1,17 @@
+{% extends "tienda/base.html" %}
+{% block title %} Editar: {{ cliente.nombre }} {% endblock %}
+
+{% block content %} 
+
+<h1>Editar cliente</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">Actualizar</button>
+</form>
+
+<p>
+    <a href="{% url 'tienda:lista_clientes' %}">Volver</a>
+</p>
+
+{% endblock %}

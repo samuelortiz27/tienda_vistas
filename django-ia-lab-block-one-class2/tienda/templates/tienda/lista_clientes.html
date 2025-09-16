@@ -1,0 +1,26 @@
+{% extends "tienda/base.html" %}
+
+{% block title %}Clientes{% endblock %}
+
+{% block content %}
+<h1>Clientes</h1>
+
+<ul>
+    {% for cli in clientes %}
+    <li>
+        <a href="{% url 'tienda:detalle_cliente' cli.pk %}">
+            {{ cli.nombre }}
+        </a>
+            - Correo: {{ cli.correo }}
+            - Registrado: {{ cli.fecha_registro|date:"d/m/Y" }}
+            - Activo: {{ cli.activo|yesno:"Sí,No" }}
+    </li>
+    {% empty %}
+    <li>No hay clientes registrados.</li>
+    {% endfor %}
+</ul>
+
+<p>
+    <a href="{% url 'tienda:crear_cliente' %}" class="btn">➕ Crear nuevo cliente</a>
+</p>
+{% endblock %}

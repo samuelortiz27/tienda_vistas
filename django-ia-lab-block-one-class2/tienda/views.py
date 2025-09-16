@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Producto, Pedido, Cliente
-from .forms import ProductoForm
+from .forms import ProductoForm, ClienteForm
 
 def home(request):
     # render() recibe: request, ruta de template, contexto (diccionario)
@@ -42,7 +42,7 @@ def crear_producto(request):
 def editar_producto(request,pk):
     producto= get_object_or_404(Producto, pk=pk)
 
-    if request.method =="POSR":
+    if request.method =="POST":
         form=ProductoForm(request.POST, instance=producto)
         if form.is_valid():
             form.save()
@@ -51,3 +51,34 @@ def editar_producto(request,pk):
         form = ProductoForm(instance=producto)
 
     return render (request,"tienda/editar_producto.html",{"form":form})            
+
+
+def crear_cliente(request):
+    if request.method == "POST":
+        form = ClienteForm(request.POST)
+        if form.is_valid():
+            cliente = form.save()
+            return redirect("tienda:detalle_cliente", pk=cliente.pk)
+    else:
+        form = ClienteForm()
+
+    return render(request, "tienda/crear_cliente.html", {"form": form})
+
+def lista_clientes(request):
+    clientes = Cliente.objects.all().order_by("nombre")
+    return render(request, "tienda/lista_clientes.html", {"clientes": clientes})
+
+def editar_cliente(request, pk):
+    cliente = get_object_or_404(Cliente, pk=pk)
+
+    if request.method == "POST":
+        form = ClienteForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            return redirect("tienda:detalle_cliente", pk=cliente.pk)
+    else:
+        form = ClienteForm(instance=cliente)
+
+    return render(request, "tienda/editar_cliente.html", {"form": form, "cliente": cliente})
+
+
