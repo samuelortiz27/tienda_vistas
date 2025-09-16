@@ -8,5 +8,6 @@
 <p><strong>Precio:</strong> ${{ producto.precio|floatformat:0 }}</p>
 <p>
     <a href="{% url 'tienda:editar_producto' producto.pk %}" class="btn">🖋️Editar producto</a>
+    <a href="{% url 'tienda:eliminar_producto' producto.pk %}" class="btn">🗑️Eliminar producto</a>
 </p>
 {% endblock %}
